@@ -1,23 +1,31 @@
-import { consumeQueue } from "./configureRMQ";
+import { sendMail } from "../nodemailer/configureNodeMailer";
+import { consumeQueue, rabbitMQConnectionStatus } from "./configureRMQ";
 import workerpool from "workerpool";
 
 const pool = workerpool.pool({maxWorkers: 4});
-
-consumeQueue(async (msg: {type: string, payload?: {}})=>{
-    switch (msg.type) {
-        case "sendMail":
-            if (msg.payload) {
-                await pool.exec(sendMailFunction, [msg.payload]);
-            } else {
-                return console.log("If Your wanna send email, please enter payload information.");
-            }
-            break;
-        default:
-            console.log("Please Check your Rabbit consume name");
-            break;
+const processQueueOnce = async() =>{
+    if (!rabbitMQConnectionStatus) {
+        return console.log("Please Check Connection(Rabbit)");
     }
-});
-
-function sendMailFunction({}) {
-    
+    consumeQueue(async (msg: {type: string, payload?: any})=>{
+        console.log(msg);
+        switch (msg.type) {
+            case "sendMail":
+                if (msg.payload) {
+                    // console.log("Deneme");
+                    // pool.exec((await sendMail), [msg.payload]).then((res)=>{console.log(res);
+                    // }).catch((err)=>{console.log(err);
+                    // });
+                    await sendMail(msg.payload);
+                } else {
+                    return console.log("If Your wanna send email, please enter payload information.");
+                }
+                break;
+            default:
+                console.log("Please Check your Rabbit consume name");
+                break;
+        }
+    });
 }
+
+export default processQueueOnce;

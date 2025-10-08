@@ -27,6 +27,7 @@
     "mongoose-autopopulate": "^1.1.0",
     "mongoose-delete": "^1.0.2",
     "mongoose-paginate-v2": "^1.9.1",
+    "node-cron": "^4.2.1",
     "nodemailer": "^7.0.7",
     "workerpool": "^9.3.4"
   },
