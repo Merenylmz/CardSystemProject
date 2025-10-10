@@ -13,7 +13,7 @@ export const newOrder = async(req: Request, res: Response) => {
             payload: {
                 to: req.body.email,
                 subject: "Your Order is Ready",
-                text: `<h1>Order</h1> <p>Thanks For your order :)</p>`
+                body: `<h1>Order</h1> <p>Thanks For your order :)</p>`
             }
         });
 
@@ -25,7 +25,7 @@ export const newOrder = async(req: Request, res: Response) => {
 
 export const getOrder = async(req: Request, res: Response)=>{
     try {
-        const user = await Users.findOne({email: req.body.email});
+        const user = await Users.findOne({email: req.query.email});
         if (!user) {
             return res.send({status: false, msg: "..."});
         }

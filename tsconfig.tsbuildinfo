@@ -1,1 +1,1 @@
-{"root":["./src/index.ts"],"version":"5.8.3"}
+{"root":["./src/index.ts","./src/controllers/auth.controller.ts","./src/controllers/order.controller.ts","./src/controllers/product.controller.ts","./src/libs/nodemailer/configurenodemailer.ts","./src/libs/rabbitmq/configurermq.ts","./src/libs/rabbitmq/worker.ts","./src/libs/redis/configureredis.ts","./src/middleware/islogin.ts","./src/models/order.model.ts","./src/models/product.model.ts","./src/models/user.model.ts","./src/routes/order.routes.ts","./src/routes/product.routes.ts","./src/routes/user.routes.ts"],"version":"5.8.3"}

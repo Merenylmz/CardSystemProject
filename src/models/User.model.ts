@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
     lastName: String,
     email: String,
     password: String,
-    orderId: {type: mongoose.Schema.Types.ObjectId, ref: "Orders", required: false, autoPopulate: true} 
+    orderId: {type: mongoose.Schema.Types.ObjectId, ref: "Orders", required: false, autoPopulate: true},
+    lastLoginToken: {type: String, required: false}
 });
 
 userSchema.virtual("fullName").get(function(){

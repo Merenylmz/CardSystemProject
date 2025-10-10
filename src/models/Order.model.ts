@@ -20,7 +20,7 @@ orderSchema.methods.configureQuantity = function(){
 orderSchema.index({createdAt: 1}, {expireAfterSeconds: 3600});
 
 orderSchema.plugin(autoPopulate);
-orderSchema.plugin(mongooseDelete, {overrideMethods: "all"});
+// orderSchema.plugin(mongooseDelete, {overrideMethods: "all"});
 
 const Orders = mongoose.model("Orders", orderSchema);
 
