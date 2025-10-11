@@ -1,8 +1,9 @@
-import { sendMail } from "../nodemailer/configureNodeMailer";
+// import { sendMail } from "../nodemailer/configureNodeMailer";
+import { runMailThread } from "../threads/threadRunner";
 import { consumeQueue, rabbitMQConnectionStatus } from "./configureRMQ";
 import workerpool from "workerpool";
 
-const pool = workerpool.pool({maxWorkers: 4});
+// const pool = workerpool.pool({maxWorkers: 4});
 const processQueueOnce = async() =>{
     if (!rabbitMQConnectionStatus) {
         return console.log("Please Check Connection(Rabbit)");
@@ -12,11 +13,8 @@ const processQueueOnce = async() =>{
         switch (msg.type) {
             case "sendMail":
                 if (msg.payload) {
-                    // console.log("Deneme");
-                    // pool.exec((await sendMail), [msg.payload]).then((res)=>{console.log(res);
-                    // }).catch((err)=>{console.log(err);
-                    // });
-                    await sendMail(msg.payload);
+                    // await sendMail(msg.payload);
+                    await runMailThread(msg.payload);
                 } else {
                     return console.log("If Your wanna send email, please enter payload information.");
                 }

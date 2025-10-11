@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import redis, { redisStatus } from "./libs/redis/configureRedis";
+import { redisStatus } from "./libs/redis/configureRedis";
+const redis = require("./libs/redis/configureRedis");
 import connectionRabbit, { consumeQueue, rabbitMQConnectionStatus } from "./libs/rabbitmq/configureRMQ";
 import cors from "cors";
 import productRoutes from "./routes/Product.routes";
@@ -16,15 +17,15 @@ const app = express();
 dotenv.config({quiet: true});
 
 //For a Security
-const limiter = rateLimit({
-    windowMs: 15*60*1000,
-    max: 100,
-    message: "Hey dude, Calm down take it easy :)"
-});
+// const limiter = rateLimit({
+//     windowMs: 15*60*1000,
+//     max: 100,
+//     message: "Hey dude, Calm down take it easy :)"
+// });
 
-app.use(cors());
-app.use(limiter);
-app.use(helmet());
+// app.use(cors());
+// app.use(limiter);
+// app.use(helmet());
 //--------------------
 
 app.use(express.urlencoded({extended: true}));

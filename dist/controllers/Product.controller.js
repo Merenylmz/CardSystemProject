@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addProduct = exports.getByIdProduct = exports.getAllProduct = void 0;
+exports.editProduct = exports.deleteProduct = exports.addProduct = exports.getByIdProduct = exports.getAllProduct = void 0;
 const Product_model_1 = __importDefault(require("../models/Product.model"));
 const configureRedis_1 = __importDefault(require("../libs/redis/configureRedis"));
 const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -54,9 +54,40 @@ const getByIdProduct = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getByIdProduct = getByIdProduct;
 const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const newProduct = new Product_model_1.default(req.body);
+        yield newProduct.save();
+        yield configureRedis_1.default.del("products");
+        res.send({ status: true, newProduct });
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+});
+exports.addProduct = addProduct;
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const product = yield Product_model_1.default.findOne({ _id: req.params.id });
+        if (!product) {
+            return res.send({ status: false, msg: "Product is not found" });
+        }
+        yield configureRedis_1.default.del("products");
+        yield product.deleteAfterDelOrder(req.params.orderId, product._id);
+        res.send({ status: true });
     }
     catch (error) {
         console.log(error);
     }
 });
-exports.addProduct = addProduct;
+exports.deleteProduct = deleteProduct;
+const editProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const editedProduct = yield Product_model_1.default.findOneAndUpdate({ _id: req.params.id }, req.body);
+        yield configureRedis_1.default.del("products");
+        res.send({ status: true, editedProduct });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.editProduct = editProduct;

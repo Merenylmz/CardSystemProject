@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import Users from "../models/User.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import JWTR from "jwt-redis";
 import redis from "../libs/redis/configureRedis";
 
 export const register = async(req: Request, res: Response) =>{

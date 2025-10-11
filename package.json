@@ -23,7 +23,6 @@
     "helmet": "^8.1.0",
     "ioredis": "^5.8.0",
     "jsonwebtoken": "^9.0.2",
-    "jwt-redis": "^7.0.3",
     "mongoose": "^8.19.0",
     "mongoose-autopopulate": "^1.1.0",
     "mongoose-delete": "^1.0.2",
@@ -31,6 +30,7 @@
     "node-cron": "^4.2.1",
     "nodemailer": "^7.0.7",
     "redis": "^5.8.3",
+    "worker-threads": "^1.0.0",
     "workerpool": "^9.3.4"
   },
   "devDependencies": {

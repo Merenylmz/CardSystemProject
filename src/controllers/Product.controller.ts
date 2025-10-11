@@ -41,8 +41,39 @@ export const getByIdProduct = async(req: Request, res: Response)=>{
 
 export const addProduct = async(req: Request, res: Response)=>{
     try {
-                
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+        await redis.del("products");
+
+        res.send({status: true, newProduct});
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};
+
+export const deleteProduct = async(req: Request, res: Response)=>{
+    try {
+        const product = await Product.findOne({_id: req.params.id});
+        if (!product) {
+            return res.send({status: false, msg: "Product is not found"});
+        }
+        await redis.del("products");  
+        await product.deleteAfterDelOrder(req.params.orderId, product._id);
+        
+        res.send({status: true});
     } catch (error) {
         console.log(error);
     }
 };
+
+export const editProduct = async(req: Request, res: Response)=>{
+    try {
+        const editedProduct = await Product.findOneAndUpdate({_id: req.params.id}, req.body);
+        await redis.del("products");
+
+        res.send({status: true, editedProduct});
+    } catch (error) {
+        console.log(error);
+    }
+}

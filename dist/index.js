@@ -49,26 +49,24 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const configureRedis_1 = require("./libs/redis/configureRedis");
+const redis = require("./libs/redis/configureRedis");
 const configureRMQ_1 = __importStar(require("./libs/rabbitmq/configureRMQ"));
-const cors_1 = __importDefault(require("cors"));
 const Product_routes_1 = __importDefault(require("./routes/Product.routes"));
 const Order_routes_1 = __importDefault(require("./routes/Order.routes"));
 const User_routes_1 = __importDefault(require("./routes/User.routes"));
-const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
-const helmet_1 = __importDefault(require("helmet"));
 const node_cron_1 = __importDefault(require("node-cron"));
 const worker_1 = __importDefault(require("./libs/rabbitmq/worker"));
 const app = (0, express_1.default)();
 dotenv_1.default.config({ quiet: true });
 //For a Security
-const limiter = (0, express_rate_limit_1.default)({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    message: "Hey dude, Calm down take it easy :)"
-});
-app.use((0, cors_1.default)());
-app.use(limiter);
-app.use((0, helmet_1.default)());
+// const limiter = rateLimit({
+//     windowMs: 15*60*1000,
+//     max: 100,
+//     message: "Hey dude, Calm down take it easy :)"
+// });
+// app.use(cors());
+// app.use(limiter);
+// app.use(helmet());
 //--------------------
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());

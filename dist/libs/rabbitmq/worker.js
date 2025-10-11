@@ -8,14 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const configureNodeMailer_1 = require("../nodemailer/configureNodeMailer");
+// import { sendMail } from "../nodemailer/configureNodeMailer";
+const threadRunner_1 = require("../threads/threadRunner");
 const configureRMQ_1 = require("./configureRMQ");
-const workerpool_1 = __importDefault(require("workerpool"));
-const pool = workerpool_1.default.pool({ maxWorkers: 4 });
+// const pool = workerpool.pool({maxWorkers: 4});
 const processQueueOnce = () => __awaiter(void 0, void 0, void 0, function* () {
     if (!configureRMQ_1.rabbitMQConnectionStatus) {
         return console.log("Please Check Connection(Rabbit)");
@@ -25,11 +22,8 @@ const processQueueOnce = () => __awaiter(void 0, void 0, void 0, function* () {
         switch (msg.type) {
             case "sendMail":
                 if (msg.payload) {
-                    // console.log("Deneme");
-                    // pool.exec((await sendMail), [msg.payload]).then((res)=>{console.log(res);
-                    // }).catch((err)=>{console.log(err);
-                    // });
-                    yield (0, configureNodeMailer_1.sendMail)(msg.payload);
+                    // await sendMail(msg.payload);
+                    yield (0, threadRunner_1.runMailThread)(msg.payload);
                 }
                 else {
                     return console.log("If Your wanna send email, please enter payload information.");
