@@ -12,13 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // import { sendMail } from "../nodemailer/configureNodeMailer";
 const threadRunner_1 = require("../threads/threadRunner");
 const configureRMQ_1 = require("./configureRMQ");
+// import workerpool from "workerpool";
 // const pool = workerpool.pool({maxWorkers: 4});
 const processQueueOnce = () => __awaiter(void 0, void 0, void 0, function* () {
     if (!configureRMQ_1.rabbitMQConnectionStatus) {
         return console.log("Please Check Connection(Rabbit)");
     }
     (0, configureRMQ_1.consumeQueue)((msg) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(msg);
+        // console.log(msg);
         switch (msg.type) {
             case "sendMail":
                 if (msg.payload) {

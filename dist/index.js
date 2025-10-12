@@ -89,7 +89,7 @@ node_cron_1.default.schedule("* * * * *", () => __awaiter(void 0, void 0, void 0
     console.log("Schedule Running...");
     yield (0, worker_1.default)();
 }));
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3002, () => {
     console.log("✅ Listening a PORT");
     (() => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.default.connect(process.env.MongoDbUri);

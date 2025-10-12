@@ -17,7 +17,7 @@ const amqplib_1 = __importDefault(require("amqplib"));
 let channel;
 exports.rabbitMQConnectionStatus = false;
 const connectionRabbit = () => __awaiter(void 0, void 0, void 0, function* () {
-    const connection = yield amqplib_1.default.connect("amqp://guest:guest@localhost:5672");
+    const connection = yield amqplib_1.default.connect(process.env.RMQUri || "amqp://guest:guest@localhost:5672");
     channel = (yield connection.createChannel());
     (yield channel).assertQueue("taskQueue");
     exports.rabbitMQConnectionStatus = true;

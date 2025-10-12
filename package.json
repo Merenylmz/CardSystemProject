@@ -2,6 +2,10 @@
   "name": "basecategoryapp",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=19.0.0"
+  },
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",

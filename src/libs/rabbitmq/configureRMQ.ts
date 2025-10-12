@@ -3,11 +3,13 @@ import amqp, { Channel } from "amqplib";
 let channel : Channel;
 export let rabbitMQConnectionStatus : any = false;
 const connectionRabbit = async() =>{
-    const connection = await amqp.connect("amqp://guest:guest@localhost:5672");
-    channel = (await connection.createChannel());
-    (await channel).assertQueue("taskQueue");
-    rabbitMQConnectionStatus = true;
-    console.log("✅ RabbitMQ Connected");
+    setTimeout(async()=>{
+        const connection = await amqp.connect(process.env.RMQUri! || "amqp://guest:guest@rabbitmq:5672");
+        channel = (await connection.createChannel());
+        (await channel).assertQueue("taskQueue");
+        rabbitMQConnectionStatus = true;
+        console.log("✅ RabbitMQ Connected");
+    }, 5000);
 }
 
 const sendToQueue = (data: any) =>{

@@ -11,7 +11,6 @@ const runMailThread = (payload) => {
         const worker = new worker_threads_1.Worker(path_1.default.resolve(__dirname, "./../../../dist/libs/threads/nodemailer/configureNodeMailer.js"));
         worker.postMessage(payload);
         worker.on("message", (msg) => {
-            console.log("📨 Worker cevabı:", msg);
             resolve(msg);
         });
         worker.on("error", reject);

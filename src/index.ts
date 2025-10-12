@@ -55,7 +55,7 @@ nodeCron.schedule("* * * * *", async()=>{
     await processQueueOnce();
 });
 
-app.listen(process.env.PORT!, ()=>{
+app.listen(process.env.PORT! || 3002, ()=>{
     console.log("✅ Listening a PORT");
     (async()=>{
         await mongoose.connect(process.env.MongoDbUri!);

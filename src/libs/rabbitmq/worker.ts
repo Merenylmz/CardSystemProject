@@ -1,7 +1,7 @@
 // import { sendMail } from "../nodemailer/configureNodeMailer";
 import { runMailThread } from "../threads/threadRunner";
 import { consumeQueue, rabbitMQConnectionStatus } from "./configureRMQ";
-import workerpool from "workerpool";
+// import workerpool from "workerpool";
 
 // const pool = workerpool.pool({maxWorkers: 4});
 const processQueueOnce = async() =>{
@@ -9,7 +9,7 @@ const processQueueOnce = async() =>{
         return console.log("Please Check Connection(Rabbit)");
     }
     consumeQueue(async (msg: {type: string, payload?: any})=>{
-        console.log(msg);
+        // console.log(msg);
         switch (msg.type) {
             case "sendMail":
                 if (msg.payload) {
