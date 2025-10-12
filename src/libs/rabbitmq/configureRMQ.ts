@@ -4,7 +4,7 @@ let channel : Channel;
 export let rabbitMQConnectionStatus : any = false;
 const connectionRabbit = async() =>{
     setTimeout(async()=>{
-        const connection = await amqp.connect(process.env.RMQUri! || "amqp://guest:guest@rabbitmq:5672");
+        const connection = await amqp.connect(process.env.RMQUri!);
         channel = (await connection.createChannel());
         (await channel).assertQueue("taskQueue");
         rabbitMQConnectionStatus = true;
