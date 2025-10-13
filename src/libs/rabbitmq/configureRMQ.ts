@@ -2,14 +2,14 @@ import amqp, { Channel } from "amqplib";
 
 let channel : Channel;
 export let rabbitMQConnectionStatus : any = false;
-const connectionRabbit = async() =>{
+const connectionRabbit = async(uri: any) =>{
     setTimeout(async()=>{
-        const connection = await amqp.connect(process.env.RMQUri!);
+        const connection = await amqp.connect(uri);
         channel = (await connection.createChannel());
         (await channel).assertQueue("taskQueue");
         rabbitMQConnectionStatus = true;
         console.log("✅ RabbitMQ Connected");
-    }, 5000);
+    }, 7000);
 }
 
 const sendToQueue = (data: any) =>{

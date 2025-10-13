@@ -59,7 +59,7 @@ export const deleteProduct = async(req: Request, res: Response)=>{
             return res.send({status: false, msg: "Product is not found"});
         }
         await redis.del("products");  
-        await product.deleteAfterDelOrder(req.params.orderId, product._id);
+        await product.deleteAfterDelOrder(req.query.orderId, product._id);
         
         res.send({status: true});
     } catch (error) {

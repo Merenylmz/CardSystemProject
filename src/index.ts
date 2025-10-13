@@ -60,7 +60,7 @@ app.listen(process.env.PORT! || 3002, ()=>{
     (async()=>{
         await mongoose.connect(process.env.MongoDbUri!);
         mongoose.STATES.connected == 1 && console.log("✅ MongoDb Connected");
-        await connectionRabbit();
-        console.log("Ready to Smash :)");
+        await connectionRabbit(process.env.RMQUri!);
+        rabbitMQConnectionStatus && console.log("Ready to Smash :)");
     })()
 });

@@ -3,7 +3,7 @@ import { getOrder, newOrder } from "../controllers/Order.controller";
 import isLogin from "../middleware/isLogin";
 const router = express.Router();
 
-router.post("/neworder", newOrder);
-router.get("/", isLogin, getOrder);
+router.post("/neworder", isLogin, newOrder);
+router.get("/", getOrder);
 
 export default router;

@@ -32,7 +32,7 @@ export const login = async(req: Request, res: Response) =>{
             return res.send({status: false, msg: "Password incorrect"});
         }
         const token = await jwt.sign({userId: user._id}, process.env.PRIVATE_KEY!);
-        await redis.set(`blacklist:${token}`, user._id.toString(), "EX", 60);
+        await redis.set(`blacklist:${token}`, user._id.toString(), "EX", 60*20);
         user.lastLoginToken = token;
         await user.save();
 
