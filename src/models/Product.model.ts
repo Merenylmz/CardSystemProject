@@ -7,7 +7,7 @@ export interface IProductModel {
     views: number,
     userId: mongoose.Schema.Types.ObjectId,
     price: number
-    deleteAfterDelOrder(orderId: any, productId: any) : Promise<Boolean>;
+    deleteAfterDelOrder(productId: any) : Promise<Boolean>;
 }
 
 const productSchema = new mongoose.Schema({
@@ -22,15 +22,19 @@ productSchema.index({title: 1, price: -1});
 
 productSchema.plugin(autoPopulate);
 
-productSchema.methods.deleteAfterDelOrder = async function(orderId: any, productId: any) {
-    const order = await Orders.findOne({_id: orderId});
-    if (!order || !Array.isArray(order.products)) {
-        throw new Error("Order veya ürün listesi bulunamadı");
+productSchema.methods.deleteAfterDelOrder = async function(productId: any) {
+    if (!productId) {
+        throw new Error("ürün bulunamadı");
     }
-    const editedOrderArray = order.products.filter((p)=>p._id.toString() !== productId.toString());
-    order.set("products", editedOrderArray);
+    await Orders.updateMany(
+        {},
+        { $pull: { products: { product: productId } } }
+    );
 
-    await order.save();
+    // const editedOrderArray = order.products.filter((p)=>p._id.toString() !== productId.toString());
+    // order.set("products", editedOrderArray);
+
+    // await order.save();
     return true;
 }
 const Product = mongoose.model<IProductModel>("Product", productSchema);

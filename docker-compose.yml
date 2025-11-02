@@ -37,7 +37,7 @@ services:
     container_name: card-rabbitmq
     ports:
       - "5672:5672"
-      - "15672:15672" # Management UI
+      - "15672:15672"
 
 volumes:
   mongo-data:

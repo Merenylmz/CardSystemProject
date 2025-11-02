@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Product from "../models/Product.model";
 import redis from "../libs/redis/configureRedis";
+import Users from "../models/User.model";
 
 export const getAllProduct = async(req: Request, res: Response) =>{
     try {
@@ -41,7 +42,11 @@ export const getByIdProduct = async(req: Request, res: Response)=>{
 
 export const addProduct = async(req: Request, res: Response)=>{
     try {
-        const newProduct = new Product(req.body);
+        const user = await Users.findOne({email: req.body.email});
+        if (!user) {
+            return res.send({msg: "User Not Found", status: false});
+        }
+        const newProduct = new Product({...req.body, userId: user._id});
         await newProduct.save();
         await redis.del("products");
 
@@ -59,7 +64,7 @@ export const deleteProduct = async(req: Request, res: Response)=>{
             return res.send({status: false, msg: "Product is not found"});
         }
         await redis.del("products");  
-        await product.deleteAfterDelOrder(req.query.orderId, product._id);
+        await product.deleteAfterDelOrder(product._id);
         
         res.send({status: true});
     } catch (error) {

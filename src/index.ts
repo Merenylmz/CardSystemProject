@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { redisStatus } from "./libs/redis/configureRedis";
 const redis = require("./libs/redis/configureRedis");
-import connectionRabbit, { consumeQueue, rabbitMQConnectionStatus } from "./libs/rabbitmq/configureRMQ";
+import connectionRabbit, { rabbitMQConnectionStatus } from "./libs/rabbitmq/configureRMQ";
 import cors from "cors";
 import productRoutes from "./routes/Product.routes";
 import orderRoutes from "./routes/Order.routes";
@@ -23,7 +23,9 @@ dotenv.config({quiet: true});
 //     message: "Hey dude, Calm down take it easy :)"
 // });
 
-// app.use(cors());
+app.use(cors({
+    origin: "*"
+}));
 // app.use(limiter);
 // app.use(helmet());
 //--------------------
@@ -61,6 +63,6 @@ app.listen(process.env.PORT! || 3002, ()=>{
         await mongoose.connect(process.env.MongoDbUri!);
         mongoose.STATES.connected == 1 && console.log("✅ MongoDb Connected");
         await connectionRabbit(process.env.RMQUri!);
-        rabbitMQConnectionStatus && console.log("Ready to Smash :)");
+        console.log("Ready to Smash :)");
     })()
 });

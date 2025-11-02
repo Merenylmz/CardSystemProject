@@ -5,11 +5,11 @@ import mongooseDelete from "mongoose-delete";
 
 const orderSchema = new mongoose.Schema({
     content: String,
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: "Users", required: true, autoPopulate: true},
     products: [{
         product: {type: mongoose.Schema.Types.ObjectId, ref: "Product", autoPopulate: true},
         quantity: Number
     }],
+    email: {type: String}
 
 }, {timestamps: true});
 
